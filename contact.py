@@ -16,6 +16,9 @@ class ContactController(http.Controller):
     @http.route('/api/contact', type='json', auth='public', methods=['POST'], csrf=False)
     def api_contact(self, **kwargs):
         contact_data = request.jsonrequest
+        name_data = contact_data.get('name', None)
+        if not name_data:
+            raise Unauthorized("Dont have name, please write a name!!!")
         contact = self.verify_contact(contact_data)
         if contact:
             return {"name": contact.name, "message": "Contat Already Register!!!"}
